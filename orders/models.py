@@ -27,3 +27,9 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return self.product.name
+    
+    def mark_paid(self):
+        self.status = 'Paid'
+        self.save()
+
+

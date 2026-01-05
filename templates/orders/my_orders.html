@@ -20,6 +20,15 @@
               ₹{{ item.price }}
             </li>
           {% endfor %}
+          {% if order.status == "Pending" %}
+            <a href="{% url 'orders:payment_demo' order.id %}"
+                class="btn btn-primary btn-sm">
+                Pay Now
+            </a>
+{% else %}
+  <span class="badge bg-success">Paid</span>
+{% endif %}
+
         </ul>
       </div>
     </div>

@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from cart.views import get_cart_items   # we’ll define this helper
 from .models import Order, OrderItem
@@ -30,3 +30,14 @@ def checkout(request):
 def my_orders(request):
     orders = Order.objects.filter(user=request.user).order_by('-created_at')
     return render(request, 'orders/my_orders.html', {'orders': orders})
+
+@login_required
+def payment_demo(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if request.method == "POST":
+        order.status = "Paid"
+        order.save()
+        return redirect('orders:my_orders')
+
+    return render(request, 'orders/payment_demo.html', {'order': order})
