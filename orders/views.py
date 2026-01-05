@@ -1,4 +1,4 @@
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.contrib.auth.decorators import login_required
 from cart.views import get_cart_items   # we’ll define this helper
 from .models import Order, OrderItem
@@ -25,3 +25,8 @@ def checkout(request):
 
     request.session['cart'] = {}
     return redirect('/')
+
+@login_required
+def my_orders(request):
+    orders = Order.objects.filter(user=request.user).order_by('-created_at')
+    return render(request, 'orders/my_orders.html', {'orders': orders})
