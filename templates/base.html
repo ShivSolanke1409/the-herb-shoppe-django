@@ -12,7 +12,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-dark bg-success">
+<nav class="navbar navbar-expand-lg navbar-dark bg-success gap-4" >
   <div class="container">
     <a class="navbar-brand" href="/">🌿 The Herb Shoppe</a>
 
@@ -25,7 +25,7 @@
         </li>
 
 {% if user.is_authenticated %}
-  <li class="nav-item">
+  <li class="nav-item d-flex align-items-center gap-4">
     <form method="post" action="/accounts/logout/" class="d-inline">
       {% csrf_token %}
       <button type="submit" class="nav-link btn btn-link p-0">
@@ -33,6 +33,23 @@
       </button>
     </form>
   </li>
+
+  <li class="nav-item d-flex align-items-center gap-4">
+
+  <a href="/accounts/profile/"
+     class="d-flex align-items-center justify-content-center rounded-circle text-white text-decoration-none"
+     style="
+       width: 36px;
+       height: 36px;
+       background-color: #024d2a;
+       font-weight: bold;
+       text-transform: uppercase;
+     ">
+    {{ user.email|first }}
+  </a>
+
+</li>
+
 {% else %}
   <li class="nav-item">
     <a class="nav-link" href="/accounts/login/">Login</a>
@@ -41,7 +58,6 @@
     <a class="nav-link" href="/accounts/register/">Register</a>
   </li>
 {% endif %}
-
 
       </ul>
     </div>
