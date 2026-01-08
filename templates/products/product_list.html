@@ -18,8 +18,11 @@
     <div class="row">
       {% for product in products %}
         <div class="col-md-4 mb-4">
-          <div class="card h-100">
-            <img src="{{ product.image.url }}" class="card-img-top">
+          <div class="card h-100 product-card">
+
+            <div class="product-image-wrapper">
+            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            </div>
 
             <div class="card-body">
               <h5 class="card-title">{{ product.name }}</h5>
