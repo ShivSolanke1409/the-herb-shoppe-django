@@ -1,15 +1,28 @@
 {% extends 'base.html' %}
 {% block content %}
 
+{% if query %}
+  <h5 class="mb-3">
+    Search results for "<strong>{{ query }}</strong>"
+  </h5>
+{% endif %}
+
+
 <div class="row">
   <div class="col-md-3">
     <h5>Categories</h5>
     <ul class="list-group">
       {% for cat in categories %}
-        <a href="{% url 'products:category_filter' cat.slug %}"
-           class="list-group-item list-group-item-action">
-          {{ cat.name }}
-        </a>
+         {% if cat.slug %}
+     <li class="list-group-item border-0 p-1">
+  <a href="{% url 'products:category_filter' cat.slug %}"
+     class="btn btn-outline-success btn-sm w-100
+     {% if category and category.slug == cat.slug %} active {% endif %}">
+    {{ cat.name }}
+  </a>
+</li>
+
+    {% endif %}
       {% endfor %}
     </ul>
   </div>
@@ -33,6 +46,15 @@
           </div>
         </div>
       {% endfor %}
+      {% if not query %}
+  <!-- show categories normally -->
+{% else %}
+  <div class="alert alert-info">
+    Showing search results. Clear search to browse categories.
+  </div>
+{% endif %}
+
+
     </div>
   </div>
 </div>
