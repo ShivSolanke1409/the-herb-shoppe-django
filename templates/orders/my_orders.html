@@ -1,40 +1,89 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h2>My Orders</h2>
+<h2 class="mb-4">📦 My Orders</h2>
 
-{% if orders %}
-  {% for order in orders %}
-    <div class="card mb-3">
-      <div class="card-body">
-        <h5>Order #{{ order.id }}</h5>
-        <p>Status: <strong>{{ order.status }}</strong></p>
-        <p>Total: ₹{{ order.total_price }}</p>
-        <p>Date: {{ order.created_at }}</p>
+<div class="row">
 
-        <ul>
-          {% for item in order.items.all %}
-            <li>
-              {{ item.product.name }} –
-              Qty: {{ item.quantity }} –
-              ₹{{ item.price }}
-            </li>
-          {% endfor %}
-          {% if order.status == "Pending" %}
-            <a href="{% url 'orders:payment_demo' order.id %}"
-                class="btn btn-primary btn-sm">
-                Pay Now
-            </a>
-          {% else %}
-            <span class="badge bg-success">Paid</span>
-          {% endif %}
+  <!-- 🔶 Pending Orders -->
+  <div class="col-md-4">
+    <h4 class="text-warning">Pending Orders</h4>
 
-        </ul>
+    {% for order in pending_orders %}
+      <div class="card mb-3">
+        <div class="card-body">
+          <h6>Order #{{ order.id }}</h6>
+          <p>Total: ₹{{ order.total_price }}</p>
+          <p class="small text-muted">{{ order.created_at }}</p>
+
+          <ul class="small">
+            {% for item in order.items.all %}
+              <li>{{ item.product.name }} × {{ item.quantity }}</li>
+            {% endfor %}
+          </ul>
+
+          <a href="{% url 'orders:payment_demo' order.id %}"
+             class="btn btn-success btn-sm">
+            Pay Now
+          </a>
+
+          <a href="{% url 'orders:cancel_order' order.id %}"
+             class="btn btn-outline-danger btn-sm ms-2">
+            Cancel
+          </a>
+        </div>
       </div>
-    </div>
-  {% endfor %}
-{% else %}
-  <p>You have no orders yet.</p>
-{% endif %}
+    {% empty %}
+      <p class="text-muted">No pending orders</p>
+    {% endfor %}
+  </div>
+
+  <!-- 🟢 Paid Orders -->
+  <div class="col-md-4">
+    <h4 class="text-success">Paid Orders</h4>
+
+    {% for order in paid_orders %}
+      <div class="card mb-3 border-success">
+        <div class="card-body">
+          <h6>Order #{{ order.id }}</h6>
+          <p>Total: ₹{{ order.total_price }}</p>
+          <span class="badge bg-success">Paid</span>
+
+          <ul class="small mt-2">
+            {% for item in order.items.all %}
+              <li>{{ item.product.name }} × {{ item.quantity }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No paid orders</p>
+    {% endfor %}
+  </div>
+
+  <!-- 🔴 Cancelled Orders -->
+  <div class="col-md-4">
+    <h4 class="text-danger">Cancelled Orders</h4>
+
+    {% for order in cancelled_orders %}
+      <div class="card mb-3 border-danger">
+        <div class="card-body">
+          <h6>Order #{{ order.id }}</h6>
+          <p>Total: ₹{{ order.total_price }}</p>
+          <span class="badge bg-danger">Cancelled</span>
+
+          <ul class="small mt-2">
+            {% for item in order.items.all %}
+              <li>{{ item.product.name }} × {{ item.quantity }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    {% empty %}
+      <p class="text-muted">No cancelled orders</p>
+    {% endfor %}
+  </div>
+
+</div>
 
 {% endblock %}

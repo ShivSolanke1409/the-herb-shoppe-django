@@ -28,8 +28,16 @@ def checkout(request):
 
 @login_required
 def my_orders(request):
-    orders = Order.objects.filter(user=request.user).order_by('-created_at')
-    return render(request, 'orders/my_orders.html', {'orders': orders})
+    pending_orders = Order.objects.filter(user=request.user, status='Pending').order_by('-created_at')
+    paid_orders = Order.objects.filter(user=request.user, status='Paid').order_by('-created_at')
+    cancelled_orders = Order.objects.filter(user=request.user, status='Cancelled').order_by('-created_at')
+
+    return render(request, 'orders/my_orders.html', {
+        'pending_orders': pending_orders,
+        'paid_orders': paid_orders,
+        'cancelled_orders': cancelled_orders,
+    })
+
 
 @login_required
 def payment_demo(request, order_id):
@@ -41,3 +49,13 @@ def payment_demo(request, order_id):
         return redirect('orders:my_orders')
 
     return render(request, 'orders/payment_demo.html', {'order': order})
+
+@login_required
+def cancel_order(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+
+    if order.status == "Pending":
+        order.status = "Cancelled"
+        order.save()
+
+    return redirect('orders:my_orders')
