@@ -1,0 +1,14 @@
+<div class="card h-100 product-card">
+  <div class="product-image-wrapper">
+    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+  </div>
+
+  <div class="card-body text-center">
+    <h6 class="card-title">{{ product.name }}</h6>
+    <p class="text-success fw-semibold">₹{{ product.price }}</p>
+    <a href="{% url 'products:product_detail' product.slug %}"
+       class="btn btn-sm btn-outline-success">
+      View
+    </a>
+  </div>
+</div>

@@ -24,7 +24,7 @@ def checkout(request):
         )
 
     request.session['cart'] = {}
-    return redirect('/')
+    return render(request, 'orders/payment_demo.html', {'order': order})
 
 @login_required
 def my_orders(request):

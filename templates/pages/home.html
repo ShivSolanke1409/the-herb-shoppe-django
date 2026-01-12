@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<!-- 🔥 Trending Products -->
+<h3 class="mb-3">🔥 Trending Products</h3>
+<div class="row">
+  {% for product in trending_products %}
+    <div class="col-md-3 col-sm-6 mb-4">
+      {% include 'products/product_card.html' %}
+    </div>
+  {% endfor %}
+</div>
+
+<!-- ⭐ Featured Products -->
+<h3 class="mb-3 mt-5">⭐ Suggested For You</h3>
+<div class="row">
+  {% for product in featured_products %}
+    <div class="col-md-3 col-sm-6 mb-4">
+      {% include 'products/product_card.html' %}
+    </div>
+  {% endfor %}
+</div>
+
+<!-- 🟢 Categories -->
+<h3 class="mb-3 mt-5">Browse Categories</h3>
+<div class="row">
+  {% for category in categories %}
+    <div class="col-md-3 col-sm-6 mb-4">
+      <a href="{% url 'products:category_filter' category.slug %}"
+         class="card text-decoration-none shadow-sm h-100">
+        <div class="card-body text-center">
+          <h5>{{ category.name }}</h5>
+        </div>
+      </a>
+    </div>
+  {% endfor %}
+</div>
+
+<!-- CTA -->
+<div class="text-center mt-5">
+  <a href="{% url 'products:product_list' %}" class="btn btn-success btn-lg">
+    View All Products
+  </a>
+</div>
+
+{% endblock %}
