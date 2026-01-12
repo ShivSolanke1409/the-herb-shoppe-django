@@ -21,20 +21,36 @@
   {% endfor %}
 </div>
 
-<!-- 🟢 Categories -->
-<h3 class="mb-3 mt-5">Browse Categories</h3>
+<!-- 🟢 Browse Categories -->
+<h3 class="mb-4 mt-5">Browse Categories</h3>
+
 <div class="row">
   {% for category in categories %}
-    <div class="col-md-3 col-sm-6 mb-4">
+    <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
       <a href="{% url 'products:category_filter' category.slug %}"
-         class="card text-decoration-none shadow-sm h-100">
-        <div class="card-body text-center">
-          <h5>{{ category.name }}</h5>
+         class="text-decoration-none">
+
+        <div class="card h-100 shadow-sm category-card">
+          <div class="product-image-wrapper">
+            {% if category.image %}
+              <img src="{{ category.image.url }}" alt="{{ category.name }}">
+            {% else %}
+              <div class="d-flex align-items-center justify-content-center h-100 bg-light">
+                <span class="text-muted">No Image</span>
+              </div>
+            {% endif %}
+          </div>
+
+          <div class="card-body text-center">
+            <h6 class="fw-semibold text-dark">{{ category.name }}</h6>
+          </div>
         </div>
+
       </a>
     </div>
   {% endfor %}
 </div>
+
 
 <!-- CTA -->
 <div class="text-center mt-5">

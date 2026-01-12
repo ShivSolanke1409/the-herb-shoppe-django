@@ -4,6 +4,7 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
+    image = models.ImageField(upload_to='categories/', blank=True, null=True)
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -12,6 +13,7 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
 
 
 class Product(models.Model):
