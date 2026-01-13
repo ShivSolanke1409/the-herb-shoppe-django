@@ -20,7 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    "django-insecure-render-temp-secret-key-123456",
+)
+
 #7r5oi$amzv^niweo#y3xs6b_9!(9u0d8q2t=kxjt(9k-1vc6%a
 
 # SECURITY WARNING: don't run with debug turned on in production!
@@ -28,6 +32,7 @@ DEBUG = False
 
 ALLOWED_HOSTS = [
     "the-herb-shoppe-django-1.onrender.com",
+    ".onrender.com",
     "localhost",
     "127.0.0.1",
 ]
