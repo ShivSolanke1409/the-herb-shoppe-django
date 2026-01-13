@@ -18,9 +18,9 @@ import cloudinary
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 cloudinary.config(
-    cloud_name=os.environ.get("dcojaiwm7"),
-    api_key=os.environ.get("343768966886364"),
-    api_secret=os.environ.get("S2HK10oVE935JDSNg4Ix73Pdv6g"),
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
 )
 
 # Quick-start development settings - unsuitable for production
