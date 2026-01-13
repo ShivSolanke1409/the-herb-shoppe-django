@@ -4,22 +4,11 @@ Django settings for herbshoppe project.
 
 from pathlib import Path
 import os
-import cloudinary
 
 # --------------------------------------------------
 # BASE DIR
 # --------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-# --------------------------------------------------
-# CLOUDINARY CONFIG (MUST BE BEFORE MODELS LOAD)
-# --------------------------------------------------
-cloudinary.config(
-    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
-    api_key=os.environ.get("CLOUDINARY_API_KEY"),
-    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-)
 
 
 # --------------------------------------------------
@@ -51,7 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 🔑 Cloudinary MUST be before project apps
+    # ✅ Cloudinary apps MUST come before project apps
     'cloudinary',
     'cloudinary_storage',
 
@@ -61,6 +50,21 @@ INSTALLED_APPS = [
     'orders',
     'pages',
 ]
+
+
+# --------------------------------------------------
+# CLOUDINARY CONFIG (AFTER INSTALLED_APPS)
+# --------------------------------------------------
+import cloudinary
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
+    api_key=os.environ.get("CLOUDINARY_API_KEY"),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
+    secure=True
+)
+
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 
 # --------------------------------------------------
@@ -136,7 +140,7 @@ USE_TZ = True
 
 
 # --------------------------------------------------
-# STATIC FILES (CSS/JS)
+# STATIC FILES (CSS / JS)
 # --------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
@@ -147,9 +151,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # --------------------------------------------------
 # MEDIA FILES (CLOUDINARY)
 # --------------------------------------------------
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-# ⚠️ These are NOT used in production anymore
+# ⚠️ MEDIA_URL / MEDIA_ROOT kept only for Django internals
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
