@@ -4,6 +4,8 @@ Django settings for herbshoppe project.
 
 from pathlib import Path
 import os
+import cloudinary
+
 
 # --------------------------------------------------
 # BASE DIR
@@ -44,6 +46,7 @@ INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
 
+    # Project apps
     'accounts',
     'products',
     'cart',
@@ -55,7 +58,7 @@ INSTALLED_APPS = [
 # --------------------------------------------------
 # CLOUDINARY CONFIG (AFTER INSTALLED_APPS)
 # --------------------------------------------------
-import cloudinary
+
 
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
@@ -143,7 +146,6 @@ USE_TZ = True
 # --------------------------------------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
-
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
@@ -151,6 +153,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # MEDIA FILES (CLOUDINARY)
 # =========================
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 
 
