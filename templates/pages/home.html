@@ -32,8 +32,8 @@
 
         <div class="card h-100 shadow-sm category-card">
           <div class="product-image-wrapper">
-            {% if category.image %}
-              {{ product.image.url }}
+            {% if category.image_url %}
+              <img src="{{ category.image_url }}" alt="{{ category.name }}">
             {% else %}
               <div class="d-flex align-items-center justify-content-center h-100 bg-light">
                 <span class="text-muted">No Image</span>
