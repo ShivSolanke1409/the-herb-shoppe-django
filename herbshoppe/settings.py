@@ -40,16 +40,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # ✅ Cloudinary apps MUST come before project apps
+    # Cloudinary FIRST
     'cloudinary',
     'cloudinary_storage',
 
+    # apps
     'accounts',
     'products',
     'cart',
     'orders',
     'pages',
 ]
+
 
 
 # --------------------------------------------------
@@ -61,10 +63,9 @@ cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
     api_key=os.environ.get("CLOUDINARY_API_KEY"),
     api_secret=os.environ.get("CLOUDINARY_API_SECRET"),
-    secure=True
 )
 
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 
 
 # --------------------------------------------------
@@ -148,12 +149,14 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-# --------------------------------------------------
+# =========================
 # MEDIA FILES (CLOUDINARY)
-# --------------------------------------------------
-# ⚠️ MEDIA_URL / MEDIA_ROOT kept only for Django internals
-MEDIA_URL = '/media/'
+# =========================
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+MEDIA_URL = '/media/'  # harmless, but not used in prod
 MEDIA_ROOT = BASE_DIR / 'media'
+
 
 
 # --------------------------------------------------
