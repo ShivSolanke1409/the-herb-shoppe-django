@@ -4,7 +4,10 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
-    image = models.ImageField(upload_to='categories/', blank=True, null=True)
+
+    # Image URL instead of ImageField
+    image_url = models.URLField(blank=True, null=True)
+
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -13,7 +16,6 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class Product(models.Model):
@@ -30,7 +32,8 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     stock = models.PositiveIntegerField()
 
-    image = models.ImageField(upload_to='products/')
+    # 🔥 Image URL (NO FILE UPLOAD)
+    image_url = models.URLField()
 
     is_available = models.BooleanField(default=True)
     is_trending = models.BooleanField(default=False)
