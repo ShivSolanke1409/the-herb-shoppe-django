@@ -4,10 +4,7 @@ from django.db import models
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=120, unique=True)
-
-    # Image URL instead of ImageField
     image_url = models.URLField(blank=True, null=True)
-
     is_active = models.BooleanField(default=True)
 
     class Meta:
@@ -32,15 +29,13 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=8, decimal_places=2)
     stock = models.PositiveIntegerField()
 
-    # 🔥 Image URL (NO FILE UPLOAD)
-    image_url = models.URLField()
+    image_url = models.URLField()  # 🔑 URL ONLY
 
     is_available = models.BooleanField(default=True)
     is_trending = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ['-created_at']
