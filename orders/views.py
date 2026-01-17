@@ -2,6 +2,9 @@ from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from cart.views import get_cart_items   # we’ll define this helper
 from .models import Order, OrderItem
+from django.db.models import Q
+
+
 
 @login_required
 def checkout(request):
@@ -26,17 +29,30 @@ def checkout(request):
     request.session['cart'] = {}
     return render(request, 'orders/payment_demo.html', {'order': order})
 
+
 @login_required
 def my_orders(request):
-    pending_orders = Order.objects.filter(user=request.user, status='Pending').order_by('-created_at')
-    paid_orders = Order.objects.filter(user=request.user, status='Paid').order_by('-created_at')
-    cancelled_orders = Order.objects.filter(user=request.user, status='Cancelled').order_by('-created_at')
+    query = request.GET.get('q')
+
+    base_queryset = Order.objects.filter(user=request.user)
+
+    if query:
+        base_queryset = base_queryset.filter(
+            Q(id__icontains=query) |
+            Q(status__icontains=query)
+        )
+
+    pending_orders = base_queryset.filter(status='Pending').order_by('-created_at')
+    paid_orders = base_queryset.filter(status='Paid').order_by('-created_at')
+    cancelled_orders = base_queryset.filter(status='Cancelled').order_by('-created_at')
 
     return render(request, 'orders/my_orders.html', {
         'pending_orders': pending_orders,
         'paid_orders': paid_orders,
         'cancelled_orders': cancelled_orders,
+        'query': query,
     })
+
 
 
 @login_required
