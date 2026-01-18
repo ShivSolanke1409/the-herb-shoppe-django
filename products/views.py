@@ -3,10 +3,16 @@ from django.db.models import Q
 from .models import Product, Category
 
 
-def product_list(request):
+def product_list(request, category_slug=None):
     query = request.GET.get('q')
-    categories = Category.objects.filter(is_active=True)
-    products = Product.objects.filter(is_available=True)
+    categories = Category.objects.all()
+    products = Product.objects.all()
+
+    if category_slug:
+        category = get_object_or_404(Category, slug=category_slug)
+        products = products.filter(category=category)
+    else:
+        category = None
 
     if query:
         products = products.filter(
@@ -17,7 +23,9 @@ def product_list(request):
     return render(request, 'products/product_list.html', {
         'products': products,
         'categories': categories,
+        'category': category,
         'query': query,
+        'search_context': 'products',   # ✅
     })
 
 

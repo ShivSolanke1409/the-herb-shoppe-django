@@ -34,24 +34,19 @@ def checkout(request):
 def my_orders(request):
     query = request.GET.get('q')
 
-    base_queryset = Order.objects.filter(user=request.user)
+    orders = Order.objects.filter(user=request.user)
 
     if query:
-        base_queryset = base_queryset.filter(
+        orders = orders.filter(
             Q(id__icontains=query) |
-            Q(status__icontains=query)
-        )
-
-    pending_orders = base_queryset.filter(status='Pending').order_by('-created_at')
-    paid_orders = base_queryset.filter(status='Paid').order_by('-created_at')
-    cancelled_orders = base_queryset.filter(status='Cancelled').order_by('-created_at')
+            Q(items__product__name__icontains=query)
+        ).distinct()
 
     return render(request, 'orders/my_orders.html', {
-        'pending_orders': pending_orders,
-        'paid_orders': paid_orders,
-        'cancelled_orders': cancelled_orders,
-        'query': query,
+        'orders': orders,
+        'search_context': 'orders',   # ✅
     })
+
 
 
 

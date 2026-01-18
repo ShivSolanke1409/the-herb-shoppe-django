@@ -82,15 +82,30 @@
       <ul class="navbar-nav ms-auto align-items-center gap-3">
 
         <!-- Search -->
-        <form class="d-flex" method="get" action="{{ request.path }}">
+        {% if search_context == "products" %}
+<form class="d-flex gap-2" method="get" action="{% url 'products:product_list' %}">
+{% elif search_context == "orders" %}
+<form class="d-flex gap-2" method="get" action="{% url 'orders:my_orders' %}">
+{% else %}
+<form class="d-flex gap-2" method="get" action="#">
+{% endif %}
+
   <input
     class="form-control form-control-sm"
     type="search"
     name="q"
     placeholder="Search..."
     value="{{ request.GET.q|default:'' }}"
+    aria-label="Search"
   >
+
+  <button class="btn btn-light btn-sm" type="submit">
+    🔍
+  </button>
+
 </form>
+
+
 
 
         <!-- Cart -->
