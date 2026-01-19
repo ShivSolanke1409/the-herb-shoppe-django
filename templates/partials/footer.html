@@ -4,27 +4,39 @@
 
       <!-- Brand -->
       <div class="col-md-4">
-        <h5 class="fw-bold">HerbShoppe</h5>
-        <p class="small text-muted">
+        <h5 class="fw-bold text-white">HerbShoppe</h5>
+        <p class="small text-secondary">
           Natural herbs. Trusted quality. Delivered to your doorstep.
         </p>
       </div>
 
       <!-- Links -->
       <div class="col-md-4">
-        <h6 class="fw-semibold">Quick Links</h6>
+        <h6 class="fw-semibold text-white">Quick Links</h6>
         <ul class="list-unstyled small">
-          <li><a href="/" class="text-decoration-none text-muted">Home</a></li>
-          <li><a href="{% url 'products:product_list' %}" class="text-decoration-none text-muted">Products</a></li>
-          <li><a href="{% url 'orders:my_orders' %}" class="text-decoration-none text-muted">My Orders</a></li>
+          <li>
+            <a href="/" class="text-decoration-none text-secondary footer-link">Home</a>
+          </li>
+          <li>
+            <a href="{% url 'products:product_list' %}" class="text-decoration-none text-secondary footer-link">
+              Products
+            </a>
+          </li>
+          <li>
+            <a href="{% url 'orders:my_orders' %}" class="text-decoration-none text-secondary footer-link">
+              My Orders
+            </a>
+          </li>
         </ul>
       </div>
 
       <!-- Contact -->
       <div class="col-md-4">
-        <h6 class="fw-semibold">Contact</h6>
-        <p class="small text-muted mb-1">Email: support@herbshoppe.com</p>
-        <p class="small text-muted mb-0">© {% now "Y" %} HerbShoppe</p>
+        <h6 class="fw-semibold text-white">Contact</h6>
+        <p class="small text-secondary mb-1">Email: support@herbshoppe.com</p>
+        <p class="small text-secondary mb-0">
+          © {% now "Y" %} HerbShoppe
+        </p>
       </div>
 
     </div>
