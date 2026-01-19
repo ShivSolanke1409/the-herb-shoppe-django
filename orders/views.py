@@ -32,18 +32,27 @@ def checkout(request):
 
 @login_required
 def my_orders(request):
-    query = request.GET.get('q', '').strip()
-    orders = Order.objects.filter(user=request.user)
+    pending_orders = Order.objects.filter(
+        user=request.user,
+        status=Order.STATUS_PENDING
+    ).order_by('-created_at')
 
-    if query:
-        orders = orders.filter(
-            Q(id__icontains=query) |
-            Q(items__product__name__icontains=query)
-        ).distinct()
+    paid_orders = Order.objects.filter(
+        user=request.user,
+        status=Order.STATUS_PAID
+    ).order_by('-created_at')
+
+    cancelled_orders = Order.objects.filter(
+        user=request.user,
+        status=Order.STATUS_CANCELLED
+    ).order_by('-created_at')
 
     return render(request, 'orders/my_orders.html', {
-        'orders': orders,
+        'pending_orders': pending_orders,
+        'paid_orders': paid_orders,
+        'cancelled_orders': cancelled_orders,
     })
+
 
 @login_required
 def payment_demo(request, order_id):
