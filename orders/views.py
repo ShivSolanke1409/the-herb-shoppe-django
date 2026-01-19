@@ -54,23 +54,25 @@ def my_orders(request):
     })
 
 
+
 @login_required
 def payment_demo(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
 
     if request.method == "POST":
-        order.status = "Paid"
+        order.status = Order.STATUS_PAID
         order.save()
         return redirect('orders:my_orders')
 
     return render(request, 'orders/payment_demo.html', {'order': order})
 
+
 @login_required
 def cancel_order(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
 
-    if order.status == "Pending":
-        order.status = "Cancelled"
+    if order.status == Order.STATUS_PENDING:
+        order.status = Order.STATUS_CANCELLED
         order.save()
 
     return redirect('orders:my_orders')
