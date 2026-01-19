@@ -32,8 +32,7 @@ def checkout(request):
 
 @login_required
 def my_orders(request):
-    query = request.GET.get('q')
-
+    query = request.GET.get('q', '').strip()
     orders = Order.objects.filter(user=request.user)
 
     if query:
@@ -44,11 +43,7 @@ def my_orders(request):
 
     return render(request, 'orders/my_orders.html', {
         'orders': orders,
-        'search_context': 'orders',   # ✅
     })
-
-
-
 
 @login_required
 def payment_demo(request, order_id):
